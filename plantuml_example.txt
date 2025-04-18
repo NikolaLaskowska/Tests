@@ -1,0 +1,93 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' Klasy użytkowników
+class User {
+  - id: int
+  - username: String
+  - email: String
+  - password: String
+  + login(): boolean
+  + logout(): void
+}
+
+class Customer {
+  - shippingAddress: String
+  + browseProducts(): List<Product>
+  + placeOrder(): Order
+}
+
+class Admin {
+  + addProduct(p: Product): void
+  + removeProduct(id: int): void
+}
+
+User <|-- Customer
+User <|-- Admin
+
+' Klasy produktów i kategorii
+class Product {
+  - id: int
+  - name: String
+  - description: String
+  - price: float
+  - stock: int
+  + updateStock(qty: int): void
+}
+
+class Category {
+  - id: int
+  - name: String
+  + getProducts(): List<Product>
+}
+
+Category "1" -- "*" Product : contains
+
+' Klasy zamówień i płatności
+class Order {
+  - id: int
+  - date: Date
+  - status: String
+  - totalAmount: float
+  + calculateTotal(): float
+}
+
+class OrderItem {
+  - quantity: int
+  + getSubtotal(): float
+}
+
+Order "1" -- "*" OrderItem
+Product "1" -- "*" OrderItem
+
+class Payment {
+  - id: int
+  - amount: float
+  - paymentDate: Date
+  + processPayment(): boolean
+}
+
+class CreditCardPayment {
+  - cardNumber: String
+  - expiryDate: String
+}
+
+class PayPalPayment {
+  - email: String
+}
+
+Payment <|-- CreditCardPayment
+Payment <|-- PayPalPayment
+Order "1" -- "1" Payment
+
+' Koszyk
+class Cart {
+  - items: List<OrderItem>
+  + addItem(p: Product, qty: int): void
+  + removeItem(p: Product): void
+  + clear(): void
+}
+
+Customer "1" -- "1" Cart
+
+@enduml
