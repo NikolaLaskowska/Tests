@@ -1,0 +1,29 @@
+classDiagram
+    direction TB
+    class Animal {
+        <<abstract>>
+        +String name
+        +int age
+        +void eat()
+        +void sleep()
+    }
+    class Dog {
+        +String breed
+        +void bark()
+    }
+    class Cat {
+        +String color
+        +void meow()
+    }
+    class Owner {
+        +String firstName
+        +String lastName
+        +List<Animal> pets
+        +void adopt(animal)
+    }
+
+    Animal <|-- Dog
+    Animal <|-- Cat
+    Owner "1" o-- "*" Animal : owns
+    Dog ..> Animal : inheritance
+    Cat ..> Animal : inheritance
