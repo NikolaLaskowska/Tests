@@ -1,0 +1,27 @@
+@startuml
+abstract class Vehicle {
+  +String registrationNumber
+  +move(): void
+}
+class Car extends Vehicle {
+  +int numberOfDoors
+  +move(): void
+}
+class Bicycle extends Vehicle {
+  +boolean hasBell
+  +move(): void
+}
+interface Electric {
+  +charge(): void
+}
+Car ..|> Vehicle
+Bicycle ..|> Vehicle
+Car ..|> Electric
+class Garage {
+  -vehicles: List<Vehicle>
+  +park(v: Vehicle): void
+  +unpark(v: Vehicle): void
+}
+Garage "1" o-- "*" Vehicle : contains
+note right of Car : Has a horn and can be electric
+@enduml
